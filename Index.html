@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy 9'Th Mensive 💖</title>
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to bottom right, #ffe6f0, #ffd6f7);
+    background-image: url('hearts.png'); /* pola hati transparan */
+    background-repeat: repeat;
+    background-size: 100px 100px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #330033;
+  }
+
+  h1 {
+    font-size: 3em;
+    margin-top: 50px;
+    animation: fadeIn 2s ease-in;
+    text-shadow: 2px 2px 10px #ff99cc;
+  }
+
+  p {
+    font-size: 1.2em;
+    margin: 20px 10px;
+    text-shadow: 1px 1px 6px #ffb3d9;
+  }
+
+  button {
+    background-color: #ff66b2;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1em;
+    margin: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 2px 2px 10px #ff99cc;
+  }
+
+  button:hover {
+    background-color: #ff3399;
+  }
+
+  .quiz, .result {
+    display: none;
+    margin-top: 30px;
+  }
+
+  .question {
+    font-size: 1.3em;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 5px #ff99cc;
+  }
+
+  .answers button {
+    display: block;
+    margin: 10px auto;
+    width: 60%;
+    box-shadow: 1px 1px 6px #ff99cc;
+  }
+
+  .gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 30px 0;
+  }
+
+  .gallery img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    margin: 10px;
+    border-radius: 15px;
+    box-shadow: 0 5px 10px rgba(255,51,153,0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .gallery img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 20px rgba(255,51,153,0.5);
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
+  .heart {
+    position: fixed;
+    color: #ff3399;
+    animation: fall linear infinite;
+    text-shadow: 1px 1px 5px #ff99cc;
+  }
+
+  @keyframes fall {
+    0% {top: -50px; opacity: 1;}
+    100% {top: 100%; opacity: 0;}
+  }
+</style>
+</head>
+<body>
+
+<h1>Happy 9'Th Mensive 💖</h1>
+<p>Hi My Beloved! Coba tes seberapa bucin kita bersama ❤️</p>
+<button onclick="startQuiz()">Mulai Quiz</button>
+
+<div class="quiz">
+  <div class="question" id="question"></div>
+  <div class="answers">
+    <button onclick="answer(0)" id="ans0"></button>
+    <button onclick="answer(1)" id="ans1"></button>
+    <button onclick="answer(2)" id="ans2"></button>
+    <button onclick="answer(3)" id="ans3"></button>
+  </div>
+</div>
+
+<div class="result" id="result"></div>
+
+<h2>Galeri Foto Kita 💑</h2>
+<div class="gallery">
+  <img src="foto1.jpg" alt="Foto 1">
+  <img src="foto2.jpg" alt="Foto 2">
+  <img src="foto3.jpg" alt="Foto 3">
+  <img src="foto4.jpg" alt="Foto 4">
+</div>
+
+<script>
+const quizData = [
+  {
+    question: "Tanggal jadian kita?",
+    answers: ["1 Jan", "15 Juni", "22 Feb", "30 Mar"],
+    correct: 1
+  },
+  {
+    question: "Siapa yang selalu bilang kangen?",
+    answers: ["Kamu", "Aku", "Kita sama-sama", "Tidak ada yang bilang"],
+    correct: 2
+  },
+  {
+    question: "Makanan favorit pasanganmu?",
+    answers: ["Pizza", "Sushi", "Ice Cream", "Semuanya"],
+    correct: 3
+  }
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function startQuiz() {
+  document.querySelector('button').style.display = 'none';
+  document.querySelector('.quiz').style.display = 'block';
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = quizData[currentQuestion];
+  document.getElementById('question').innerText = q.question;
+  for(let i=0; i<4; i++){
+    document.getElementById('ans'+i).innerText = q.answers[i];
+  }
+}
+
+function answer(i) {
+  if(i === quizData[currentQuestion].correct) score++;
+  currentQuestion++;
+  if(currentQuestion < quizData.length){
+    showQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.querySelector('.quiz').style.display = 'none';
+  const resultText = score === quizData.length 
+    ? "Wihh, kamu 100% bucin level dewa! Aku bangga 😘"
+    : `Kamu bucin ${Math.round(score/quizData.length*100)}%! Tetap manis ya 💖`;
+  document.getElementById('result').innerText = resultText;
+  document.getElementById('result').style.display = 'block';
+  createHearts();
+}
+
+// Animasi hati jatuh dreamy
+function createHearts() {
+  for(let i=0; i<20; i++){ // jumlah hati lebih sedikit supaya tidak dempet
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.style.left = Math.random() * 90 + '%'; // jarak horizontal random
+    heart.style.fontSize = (2 + Math.random()) + 'em'; // ukuran hati bervariasi
+    heart.style.opacity = 0.7 + Math.random() * 0.3; // transparansi bervariasi
+    heart.style.animationDuration = (4 + Math.random() * 4) + 's'; // durasi animasi bervariasi
+    heart.innerText = '❤️';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000); // hilang setelah animasi
+  }
+}
+</script>
+
+</body>
+</html>
